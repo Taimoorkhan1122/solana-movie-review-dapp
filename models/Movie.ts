@@ -1,12 +1,13 @@
 import * as borsh from "@project-serum/borsh";
+
 export class Movie {
     title: string;
-    rating: string;
+    rating: number;
     description: string;
 
     constructor(title: string, rating: number, description: string) {
         this.title = title;
-        this.rating = rating.toString();
+        this.rating = rating;
         this.description = description;
     }
 
@@ -38,7 +39,7 @@ export class Movie {
         borsh.u8("variant"),
         borsh.str("title"),
         borsh.str("rating"),
-        borsh.str("rating"),
+        borsh.str("description"),
     ]);
 
     //method for serializing data and slicing excess buffer
