@@ -48,4 +48,24 @@ export class Movie {
         this.borshInstructionSchema.encode({ ...this, variant: 0 }, buffer);
         return buffer.slice(0, this.borshInstructionSchema.getSpan(buffer));
     }
+
+    // mapping for movie data types
+    static borshAccountSchema = borsh.struct([
+        borsh.bool("initialized"),
+        borsh.u8("rating"),
+        borsh.str("title"),
+        borsh.str("desccription"),
+    ]);
+
+    static deserialize(buffer?: Buffer): Movie | null {
+        if (!buffer) return null;
+
+        try {
+            const { title, rating, description } = this.borshAccountSchema.decode(buffer);
+            return new Movie(title, rating, description);
+        } catch (error) {
+            console.log("deserializing error : ", error);
+            return null;
+        }
+    }
 }
